@@ -30,7 +30,28 @@
  */
 class Solution {
     public int minCut(String s) {
-        
+        //use length variable and s.toCharArray will decrease time complexity
+        int length = s.length();
+        char[] sArr = s.toCharArray();
+        boolean[][] isPalindrome = new boolean[length][length];
+        int[] minCut = new int[length];
+
+        for (int i=0; i<length; i++) {
+            minCut[i] = i;
+            for (int j=0;j<=i;j++) {
+                if (sArr[i]==sArr[j] && (i-j<2 || isPalindrome[i-1][j+1])) {
+                    isPalindrome[i][j] = true;
+                    isPalindrome[j][i] = true;
+
+                    if (j == 0) {
+                        minCut[i] = 0;
+                    }else {
+                        minCut[i] = Math.min(minCut[i], minCut[j-1]+1);
+                    }
+                }
+            }
+        }
+        return minCut[length-1];
     }
 }
 
