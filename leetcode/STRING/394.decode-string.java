@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /*
  * @lc app=leetcode id=394 lang=java
  *
@@ -39,7 +41,33 @@
  */
 class Solution {
     public String decodeString(String s) {
-        
+        Stack<Integer> numStack = new Stack<>();
+        Stack<String> strStack = new Stack<>();
+        int num = 0;
+        String str = "";
+
+        for (int i=0; i<s.length(); i++) {
+            if (Character.isDigit(s.charAt(i))) {
+                num = num * 10 + s.charAt(i) - '0';
+            } else if (s.charAt(i) == '[') {
+                numStack.push(num);
+                strStack.push(str);
+                num = 0;
+                str = "";
+            } else if (s.charAt(i) == ']') {
+                StringBuilder newStr = new StringBuilder();
+                int count = numStack.pop();
+                String preStr = strStack.pop();
+                newStr.append(preStr);
+                for (int j=0; j<count; j++) {
+                    newStr.append(str);
+                }
+                str = newStr.toString();
+            } else {
+                str += s.charAt(i);
+            }
+        }
+        return str;
     }
 }
 
