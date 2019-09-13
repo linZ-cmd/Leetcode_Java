@@ -1,3 +1,7 @@
+import java.util.Stack;
+
+import javax.swing.tree.TreeNode;
+
 /*
  * @lc app=leetcode id=145 lang=java
  *
@@ -41,8 +45,43 @@
  * }
  */
 class Solution {
+    // recursive
     public List<Integer> postorderTraversal(TreeNode root) {
-        
+        List<Integer> res = new ArrayList<>();
+        helper(root, res);
+        return res;
     }
+
+    public void helper(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        helper(root.left, res);
+        helper(root.right, res);
+        res.add(root.val);
+    }
+
+    // //iterative
+    // public List<Integer> postorderTraversal(TreeNode root) {
+    //     List<Integer> res = new ArrayList<>();
+    //     Stack<TreeNode> s = new Stack<>();
+    //     TreeNode cur = root;
+    //     TreeNode pre = null;
+
+    //     while (cur != null || !s.empty()) {
+    //         while (cur != null) {
+    //             s.push(cur);
+    //             cur = cur.left;
+    //         }
+    //         cur = s.peek();
+    //         if (cur.right == null || pre == cur.right) {
+    //             s.pop();
+    //             res.add(cur.val);
+    //             pre = cur;
+    //             cur = null;
+    //         } else {
+    //             cur = cur.right;
+    //         }
+    //     }
+    //     return res;
+    // }
 }
 
