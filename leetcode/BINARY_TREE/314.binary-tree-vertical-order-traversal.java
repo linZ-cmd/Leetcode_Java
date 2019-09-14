@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Queue;
+
+import javax.swing.tree.TreeNode;
+
 /*
  * @lc app=leetcode id=314 lang=java
  *
@@ -106,7 +111,38 @@
  */
 class Solution {
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        
+        List<List<Integer>> res = new ArrayList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        Queue<Integer> c = new LinkedList<>();
+        if (root == null) return res;
+        q.add(root);
+        c.add(0);
+        int max = 0;
+        int min = 0;
+
+        while (!q.isEmpty()) {
+            TreeNode cur = q.poll();
+            int col = c.poll();
+            max = Math.max(max, col);
+            min = Math.min(min, col);
+            map.putIfAbsent(col, new ArrayList<>());
+            map.get(col).add(cur.val);
+            if (cur.left != null) {
+                q.add(cur.left);
+                c.add(col-1);
+            }
+            if (cur.right != null) {
+                q.add(cur.right);
+                c.add(col+1);
+            }
+        }
+
+        for (int i = min; i<=max; i++) {
+            List<Integer> list = map.get(i);
+            res.add(list);
+        }
+        return res;
     }
 }
 
