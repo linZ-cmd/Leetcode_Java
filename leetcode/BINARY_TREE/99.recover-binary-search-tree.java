@@ -1,3 +1,7 @@
+import java.util.Stack;
+
+import javax.swing.tree.TreeNode;
+
 /*
  * @lc app=leetcode id=99 lang=java
  *
@@ -76,7 +80,6 @@
  */
 class Solution {
     public void recoverTree(TreeNode root) {
-        
     }
 }
 

@@ -1,3 +1,7 @@
+import java.util.Queue;
+
+import javax.swing.tree.TreeNode;
+
 /*
  * @lc app=leetcode id=104 lang=java
  *
@@ -44,8 +48,29 @@
  * }
  */
 class Solution {
+    // recursive
+    // public int maxDepth(TreeNode root) {
+    //     if (root == null)  return 0;
+    //     return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
+    // }
+
+    //iterative
     public int maxDepth(TreeNode root) {
-        
+        int res = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root == null) return res;
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            res++;
+            for (int i=0; i<size; i++) {
+                TreeNode temp = q.poll();
+                if (temp.left != null) q.add(temp.left);
+                if (temp.right != null) q.add(temp.right);
+            }
+        }
+        return res;
     }
 }
 

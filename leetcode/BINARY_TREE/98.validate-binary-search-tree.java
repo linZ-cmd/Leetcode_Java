@@ -63,8 +63,35 @@
  * }
  */
 class Solution {
+    // // recursive
     public boolean isValidBST(TreeNode root) {
-        
+        boolean res = helper(root, null, null);
+        return res;
+    }
+
+    public boolean helper(TreeNode root, Integer min, Integer max) {
+        if (root == null) return true;
+        if (min != null && root.val <= min) return false;
+        if (max != null && root.val >= max) return false;
+        return helper(root.left, min, root.val) && helper(root.right, root.val, max);
+    }
+
+    // iterative -- inorder traverse cuz bst inorder traverse is ordered from small to large value
+    public boolean isValidBST(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode pre = null;
+
+        while (root!= null || !s.isEmpty()) {
+            while (root != null) {
+                s.push(root);
+                root = root.left;
+            }
+            root = s.pop();
+            if (pre != null && root.val <= pre.val) return false;
+            pre = root;
+            root = root.right;
+        }
+        return true;
     }
 }
 

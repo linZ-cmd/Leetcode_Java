@@ -55,7 +55,25 @@
  */
 class Solution {
     public TreeNode sortedListToBST(ListNode head) {
-        
+        if (head == null) return null;
+        if (head.next == null) return new TreeNode(head.val);
+        ListNode mid = findMid(head);
+        TreeNode root = new TreeNode(mid.val);
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(mid.next);
+        return root;
+    }
+
+    public ListNode findMid(ListNode head) {
+        if (head == null) return null;
+        ListNode slow = head, fast = head, preSlow = head;
+        while (fast!=null && fast.next!=null) {
+            preSlow = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        preSlow.next = null;
+        return slow;
     }
 }
 

@@ -44,8 +44,37 @@
  * 
  */
 class Solution {
+    // recursive
     public boolean verifyPreorder(int[] preorder) {
-        
+        return helper(preorder, 0, preorder.length-1);
     }
+
+    public boolean helper(int[] preorder, int start, int end) {
+        if (end - start <= 1) return true;
+
+        int breakpoint = start+1;
+        for (int i=start+1; i<=end; i++) {
+            if (preorder[i] < preorder[start]) breakpoint++;
+            else break;
+        }
+        for (int i=breakpoint; i<=end; i++) {
+            if (preorder[i] < preorder[start]) return false;
+        }
+
+        return helper(preorder, start+1, breakpoint-1) && helper(preorder, breakpoint, end);
+    }
+
+    // iterative
+    // public boolean verifyPreorder(int[] preorder) {
+    //     int min = Integer.MIN_VALUE;
+    //     for (int i = 0; i < preorder.length; ++i) {
+    //         if (preorder[i] < min) return false;
+    //         for (int j = i - 1; j >= 0 && preorder[j] < preorder[i]; --j) {
+    //             min = Math.max(min, preorder[j]);
+    //         }
+    //     }
+    //     return true;
+    // }
+
 }
 

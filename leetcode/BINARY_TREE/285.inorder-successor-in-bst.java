@@ -1,3 +1,7 @@
+import java.util.Stack;
+
+import javax.swing.tree.TreeNode;
+
 /*
  * @lc app=leetcode id=285 lang=java
  *
@@ -59,16 +63,37 @@
  * }
  */
 class Solution {
+    
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
         TreeNode res = null;
-
+        
         while (root!=null) {
-            if (root.val > p.val) {
+            if (root.val>p.val) {
                 res = root;
                 root = root.left;
             } else root = root.right;
         }
         return res;
     }
+
+
+    // using stack
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode pre = null;
+
+        while(root!=null || !s.isEmpty()) {
+            while(root!=null) {
+                s.push(root);
+                root = root.left;
+            }
+            root = s.pop();
+            if (pre == p) return root;
+            pre = root;
+            root = root.right;
+        }
+        return null;
+    }
+
 }
 

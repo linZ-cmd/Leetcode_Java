@@ -48,22 +48,33 @@ import javax.swing.tree.TreeNode;
  * }
  */
 class Solution {
-    public int minDepth(TreeNode root) {
-        if (root == null) return 0;
-        int res = 0;
-        Queue<TreeNode> q = new LinkedList<>();
-        q.add(root);
-        while (!q.isEmpty()) {
-            int size = q.size();
-            res++;
-            for (int i=0; i<size; i++) {
-                TreeNode cur = q.poll();
-                if (cur.left == null && cur.right == null) return res;
-                if (cur.left != null) q.add(cur.left);
-                if (cur.right != null) q.add(cur.right);
-            }
+    // iterative
+    // public int minDepth(TreeNode root) {
+    //     if (root == null) return 0;
+    //     int res = 0;
+    //     Queue<TreeNode> q = new LinkedList<>();
+    //     q.add(root);
+    //     while (!q.isEmpty()) {
+    //         int size = q.size();
+    //         res++;
+    //         for (int i=0; i<size; i++) {
+    //             TreeNode cur = q.poll();
+    //             if (cur.left == null && cur.right == null) return res;
+    //             if (cur.left != null) q.add(cur.left);
+    //             if (cur.right != null) q.add(cur.right);
+    //         }
+    //     }
+    //     return res;
+    // }
+    //recursive
+    class Solution {
+        public int minDepth(TreeNode root) {
+            if (root == null) return 0;
+            // check if it is a leaf node!
+            if (root.left == null) return minDepth(root.right)+1;
+            if (root.right == null) return minDepth(root.left)+1;
+            return Math.min( minDepth(root.left), minDepth(root.right)) + 1;
         }
-        return res;
     }
 }
 
