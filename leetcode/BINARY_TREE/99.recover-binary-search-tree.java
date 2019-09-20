@@ -80,6 +80,47 @@ import javax.swing.tree.TreeNode;
  */
 class Solution {
     public void recoverTree(TreeNode root) {
+        TreeNode cur = root;
+        TreeNode prevNode = null;
+        TreeNode p = null;
+        TreeNode q = null;
+        while(cur != null){
+            if(cur.left == null){
+                if(prevNode != null && prevNode.val >= cur.val){
+                    if(p == null) p = prevNode;
+                    q = cur;
+                }
+                // Set prev node for scanning
+                prevNode = cur;
+                cur = cur.right;
+            } else {
+                TreeNode prev = cur.left;
+                while(prev.right != null && prev.right != cur){
+                    prev = prev.right;
+                }
+                if(prev.right == null){
+                    prev.right = cur;
+                    cur = cur.left;
+                } else {
+                    prev.right = null;
+                    if(prevNode != null && prevNode.val >= cur.val) {
+                        if(p == null) p = prevNode;
+                        q = cur;
+                    }
+                    // Set prev node for scanning
+                    prevNode = cur;
+                    cur = cur.right;
+                }
+            }
+        }
+        swap(p, q);
+    }
+
+    private void swap(TreeNode p, TreeNode q){
+        if(p == null || q == null) return;
+        int temp = p.val;
+        p.val = q.val;
+        q.val = temp;
     }
 }
 
