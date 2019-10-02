@@ -46,7 +46,30 @@
  */
 class Solution {
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        
+        return helper(inorder, postorder, postorder.length-1, 0, postorder.length-1);
+    }
+
+    public TreeNode helper(int[] inorder, int[] postorder, int rootIndex, int startIndex, int endIndex) {
+        // invalid check
+        if (rootIndex<0 || endIndex<startIndex) return null;
+        // find root in inorder array
+        int rootVal = postorder[rootIndex];
+
+        int pos = startIndex;
+        for (int i=startIndex; i<=endIndex; i++) {
+            if (inorder[i] == rootVal) {
+                pos = i;
+                break;
+            }
+        }
+
+        //build root node
+        int rightTreeLength = endIndex-pos;
+        TreeNode root = new TreeNode(rootVal);
+        root.left = helper(inorder, postorder, rootIndex-rightTreeLength-1, startIndex, pos-1);
+        root.right = helper(inorder, postorder, rootIndex-1, pos+1, endIndex);
+
+        return root;
     }
 }
 
